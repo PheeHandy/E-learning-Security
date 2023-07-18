@@ -186,16 +186,20 @@
         <!-- theme fixed shadow -->
 
      <!-- authentication__section__start -->
-        <iframe src="https://script.google.com/macros/s/AKfycbyMhRSu3HiBWERreMTIOPg0hABi6Vf6fXmGachHpWTGvn--Vnes0jvagVFFcsHFlzOtHA/exec" style="border: 0; width: 100%; height: 100vh;" ></iframe>
+        <iframe src="https://script.google.com/macros/s/AKfycbzlsMJUUum3ZJ3YHnUgqPE6S-rEXaN_-JaPe1_b_e-Ct9ZbfJOqcWN8zlvrW5zeX4zBEw/exec" style="border: 0; width: 100%; height: 100vh;" ></iframe>
         <!-- authentication__section__end-->
 		
 		<!--cookie_section_start -->
 		<script>
-		window.addEventListener('message', (event) => {
-		  // Here, event.data is the data sent from the child
-		  const dataFromChild = event.data;
-
-		  console.log(dataFromChild);  // { myData: 'Hello parent page!' }
+		window.addEventListener('message', function(event) {
+		  if (event.origin.startsWith('https://script.google.com')) {
+			// The data sent from Google Apps Script comes in the 'event.data' property
+			var data = event.data;
+			console.log(data);
+			event.source.postMessage('ack', event.origin);
+		  } else {
+			return;
+		  }
 		});
 		</script>
 		<!-- cookie_section_end-->
