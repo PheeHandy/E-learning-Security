@@ -186,18 +186,19 @@
         <!-- theme fixed shadow -->
 
      <!-- authentication__section__start -->
-        <iframe src="https://script.google.com/macros/s/AKfycbwZnApL18GAI2RciDHCODCeu5b4Hcvpf3yqN12htqcAj9xW7QxS1gV45SChycmPxVyuhQ/exec" style="border: 0; width: 100%; height: 100vh;" ></iframe>
+        <iframe src="https://script.google.com/macros/s/AKfycbxphCnensmJnfFHPhA26WMw1_kBkEu5xPlx-Z_CSnFa_Layn3Z1Je2RZoeXq1GiXmBN0g/exec" style="border: 0; width: 100%; height: 100vh;" ></iframe>
         <!-- authentication__section__end-->
 		
 		<!--cookie_section_start -->
 		<script>
-			function onMessageHandler(event) {
-			alert(event.data);
-			  if (event.data) {
-				console.(event.data)
-			  }
-			}
-			window.addEventListener("message", onMessageHandler);
+		window.addEventListener('message', (event) => {
+		  if (event.origin !== '*') return;
+
+		  // Here, event.data is the data sent from the child
+		  const dataFromChild = event.data;
+
+		  console.log(dataFromChild);  // { myData: 'Hello parent page!' }
+		});
 		</script>
 		<!-- cookie_section_end-->
 
