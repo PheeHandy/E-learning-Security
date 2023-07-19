@@ -7,7 +7,10 @@
     <title>Authentication | E-learning Security</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+	<meta http-equiv="Cache-Control" content="no-store" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
     <!-- Place favicon.ico in the root directory -->
 
@@ -184,23 +187,70 @@
             <div class="theme__shadow__circle shadow__right"></div>
         </div>
         <!-- theme fixed shadow -->
+		
+		<!-- session_section_start-->
+		<script>
+		window.onload = function() {
+			const session = getCookie("session");
+			const username = getCookie("username");
+			const loginDiv = document.querySelector(".headerarea__login");
+			if (session != "") {
+				let p = document.createElement("p");
+				p.textContent = "Welcome " + username + ",";
+				p.style.marginRight = '10px';
+				p.style.display = 'inline';
+				loginDiv.innerHTML = '';
+				loginDiv.appendChild(p);
+				let logoutLink = document.createElement("a");
+				logoutLink.href = "index.html";
+				logoutLink.textContent = "Logout";
+				logoutLink.addEventListener('click', function(event) {
+				event.preventDefault();
+				// Delete cookies
+				document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+				document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+				// Redirect to index.html
+				window.location.replace("index.html");
+    });
+    loginDiv.appendChild(logoutLink);
+			}
+			else 
+			{
+			loginDiv.innerHTML = '<a href="authentication.html">Login</a>';
+			}
+		};
 
+		function getCookie(cname) {
+			var name = cname + "=";
+			var decodedCookie = decodeURIComponent(document.cookie);
+			var ca = decodedCookie.split(';');
+			for(var i = 0; i <ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
+		}
+		</script>
+		<!-- session_section_end-->
+		
      <!-- authentication__section__start -->
-        <iframe src="https://script.google.com/macros/s/AKfycbzlsMJUUum3ZJ3YHnUgqPE6S-rEXaN_-JaPe1_b_e-Ct9ZbfJOqcWN8zlvrW5zeX4zBEw/exec" style="border: 0; width: 100%; height: 100vh;" ></iframe>
+        <iframe src="https://script.google.com/macros/s/AKfycbwjGcbgZdMcCT0GeO-AZ3k3ZiXkgupwNNRrUhFu61Ayh9GDVygO_CUNZqB-PDq5rMz6Cw/exec" style="border: 0; width: 100%; height: 100vh;" ></iframe>
         <!-- authentication__section__end-->
 		
 		<!--cookie_section_start -->
 		<script>
-		window.addEventListener('message', function(event) {
-		  if (event.origin.startsWith('https://script.google.com')) {
-			// The data sent from Google Apps Script comes in the 'event.data' property
-			var data = event.data;
-			console.log(data);
-			event.source.postMessage('ack', event.origin);
-		  } else {
-			return;
-		  }
-		});
+			window.onmessage = function(event){
+				if (event.origin != 'https://n-bqs6xtot5a4e4gkscfs546md5ifcetqeoo6zidy-0lu-script.googleusercontent.com') {
+					return;
+				}
+				document.cookie = "session=" + event.data.timekey + ";path=/";
+				document.cookie = "username=" + event.data.username + ";path=/";
+			};
 		</script>
 		<!-- cookie_section_end-->
 

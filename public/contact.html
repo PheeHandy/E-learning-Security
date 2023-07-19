@@ -7,7 +7,10 @@
     <title>Contact | E-learning Security</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+	<meta http-equiv="Cache-Control" content="no-store" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
     <!-- Place favicon.ico in the root directory -->
 
@@ -185,6 +188,56 @@
         </div>
         <!-- theme fixed shadow -->
 
+<!-- session_section_start-->
+		<script>
+		window.onload = function() {
+			const session = getCookie("session");
+			const username = getCookie("username");
+			const loginDiv = document.querySelector(".headerarea__login");
+			if (session != "") {
+				let p = document.createElement("p");
+				p.textContent = "Welcome " + username + ",";
+				p.style.marginRight = '10px';
+				p.style.display = 'inline';
+				loginDiv.innerHTML = '';
+				loginDiv.appendChild(p);
+				let logoutLink = document.createElement("a");
+				logoutLink.href = "index.html";
+				logoutLink.textContent = "Logout";
+				logoutLink.addEventListener('click', function(event) {
+				event.preventDefault();
+				// Delete cookies
+				document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+				document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+				// Redirect to index.html
+				window.location.replace("index.html");
+    });
+    loginDiv.appendChild(logoutLink);
+			}
+			else 
+			{
+			loginDiv.innerHTML = '<a href="authentication.html">Login</a>';
+			}
+		};
+
+		function getCookie(cname) {
+			var name = cname + "=";
+			var decodedCookie = decodeURIComponent(document.cookie);
+			var ca = decodedCookie.split(';');
+			for(var i = 0; i <ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
+		}
+		</script>
+		<!-- session_section_end-->
+		
 <!-- breadcrumbarea__section__start -->
 
         <div class="breadcrumbarea">
